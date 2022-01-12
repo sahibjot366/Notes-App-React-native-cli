@@ -1,0 +1,4 @@
+Exception in thread "main" java.util.NoSuchElementException
+	at java.base/java.util.LinkedList.getFirst(LinkedList.java:248)
+	at Main$LLToQueueAdapter.peek(Main.java:34)
+	at Main.main(Main.java:57)

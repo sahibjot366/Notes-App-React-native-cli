@@ -1,8 +1,13 @@
 import React, {useContext, useLayoutEffect, useState} from 'react';
 import {StyleSheet, View, Button, TouchableOpacity} from 'react-native';
-import {Context as NotesContext} from '../contexts/NotesContext';
-import ScreenCreate from '../components/ScreenCreate';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import showMessage from '../showMessage';
+
+//Contexts
+import {Context as NotesContext} from '../contexts/NotesContext';
+
+//Components
+import ScreenCreate from '../components/ScreenCreate';
 
 const CreateNoteScreen = ({navigation}) => {
   const {addNote} = useContext(NotesContext);
@@ -19,7 +24,7 @@ const CreateNoteScreen = ({navigation}) => {
                 addNote({title, content});
                 navigation.goBack();
               } else {
-                alert('Title is necessary');
+                showMessage("Title can't be empty!");
               }
             }}>
             <Icon name="check" type="anticon" size={30} color="#ffffff" />

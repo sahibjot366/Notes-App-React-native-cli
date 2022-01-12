@@ -1,27 +1,40 @@
-import React, {useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Context as NotesContext} from '../contexts/NotesContext';
 
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   TouchableOpacity,
   FlatList,
   AppState,
-  ToastAndroid,
 } from 'react-native';
 import NoteCard from '../components/NoteCard';
 
 const DisplayNotesScreen = ({navigation}) => {
+  const appState = useRef(AppState.currentState);
   const {state, getNotes} = useContext(NotesContext);
   useEffect(() => {
     getNotes();
-    AppState.addEventListener('blur', () => {
-      ToastAndroid.show('Changed', ToastAndroid.SHORT);
-    });
   }, []);
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      async nextAppState => {
+        if (
+          nextAppState.match(/inactive|background/) &&
+          appState.current === 'active'
+        ) {
+          await AsyncStorage.setItem('notes', JSON.stringify(state));
+        }
+        appState.current = nextAppState;
+      },
+    );
+    return () => {
+      subscription.remove();
+    };
+  }, [state]);
 
   return (
     <View style={styles.parentView}>

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import {Context as NotesContext} from '../contexts/NotesContext';
+
 const NoteCard = ({navigation, note}) => {
+  const {deleteNote} = useContext(NotesContext);
   return (
     <View style={styles.parentView}>
       <Text style={styles.textStyle}>{note.title}</Text>
@@ -11,6 +13,7 @@ const NoteCard = ({navigation, note}) => {
         type="anticon"
         size={30}
         color="#279ed5"
+        onPress={() => deleteNote(note.id)}
         style={styles.iconStyle}
       />
     </View>

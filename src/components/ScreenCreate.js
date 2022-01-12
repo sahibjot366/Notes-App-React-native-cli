@@ -1,13 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, TextInput} from 'react-native';
 
-const ScreenCreate = ({note, title, setTitle, content, setContent}) => {
-  useEffect(() => {
-    if (note) {
-      setTitle(note.title);
-      setContent(note.content);
-    }
-  }, []);
+const ScreenCreate = ({title, setTitle, content, setContent}) => {
   return (
     <View style={styles.parentView}>
       <TextInput
