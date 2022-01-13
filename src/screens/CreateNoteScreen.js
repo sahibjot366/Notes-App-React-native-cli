@@ -1,40 +1,48 @@
-import React, {useContext, useLayoutEffect, useState} from 'react';
-import {StyleSheet, View, Button, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import showMessage from '../showMessage';
+import React, {useLayoutEffect, useState, useContext, useEffect} from 'react';
+import {StyleSheet, View, BackHandler} from 'react-native';
+
+//Components
+import ScreenCreate from '../components/ScreenCreate';
+import Header from '../components/Header';
 
 //Contexts
 import {Context as NotesContext} from '../contexts/NotesContext';
 
-//Components
-import ScreenCreate from '../components/ScreenCreate';
-
 const CreateNoteScreen = ({navigation}) => {
-  const {addNote} = useContext(NotesContext);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const {addNote} = useContext(NotesContext);
+
+  const AddNote = () => {
+    if (title != '') {
+      addNote({title, content});
+    } else {
+      if (content != '') {
+        addNote({title: 'Untitled', content});
+      }
+    }
+  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      AddNote,
+    );
+    return () => backHandler.remove();
+  }, [title, content]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <TouchableOpacity
-            style={styles.iconStyle}
-            onPress={() => {
-              if (title != '') {
-                addNote({title, content});
-                navigation.goBack();
-              } else {
-                showMessage("Title can't be empty!");
-              }
-            }}>
-            <Icon name="check" type="anticon" size={30} color="#ffffff" />
-          </TouchableOpacity>
+          <View style={styles.iconStyle}>
+            <Header type="add" title={title} content={content} />
+          </View>
         );
       },
     });
   }, [navigation, title, content]);
+
   return (
-    <View>
+    <View style={styles.parentView}>
       <ScreenCreate
         title={title}
         setTitle={title => setTitle(title)}
@@ -48,6 +56,9 @@ const CreateNoteScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   iconStyle: {
     marginRight: 10,
+  },
+  parentView: {
+    backgroundColor: '#AEE9FC',
   },
 });
 

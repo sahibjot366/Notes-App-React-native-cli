@@ -1,3 +1,4 @@
+//Creates contexts - Takes reducer function,action functions and inital State
 import React, {useReducer} from 'react';
 
 export default (reducer, actions, initialState) => {

@@ -1,5 +1,7 @@
 import React, {useEffect, useContext, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//Contexts
 import {Context as NotesContext} from '../contexts/NotesContext';
 
 import {
@@ -10,14 +12,18 @@ import {
   FlatList,
   AppState,
 } from 'react-native';
+
+//Components
 import NoteCard from '../components/NoteCard';
 
 const DisplayNotesScreen = ({navigation}) => {
   const appState = useRef(AppState.currentState);
   const {state, getNotes} = useContext(NotesContext);
+
   useEffect(() => {
     getNotes();
   }, []);
+
   useEffect(() => {
     const subscription = AppState.addEventListener(
       'change',
@@ -66,7 +72,7 @@ const DisplayNotesScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,
-    backgroundColor: '#D0D3D4',
+    backgroundColor: '#AEE9FC',
   },
   iconStyle: {
     position: 'absolute',

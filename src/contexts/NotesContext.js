@@ -5,22 +5,20 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'getNotes':
       return action.payload;
-    case 'getNote':
-      return {
-        ...state,
-        notes: state.notes.find(note => note.id == action.payload),
-      };
+
     case 'deleteNote':
       return {
         ...state,
         notes: state.notes.filter(note => note.id != action.payload),
       };
+
     case 'addNote':
       return {
         ...state,
         notes: [...state.notes, {id: state.count, ...action.payload}],
         count: state.count + 1,
       };
+
     case 'editNote':
       return {
         ...state,
@@ -37,20 +35,20 @@ const reducer = (state, action) => {
 
 const addNote =
   dispatch =>
-  async ({title, content}) => {
+  ({title, content}) => {
     dispatch({type: 'addNote', payload: {title, content}});
   };
+
 const deleteNote = dispatch => id => {
   dispatch({type: 'deleteNote', payload: id});
 };
+
 const editNote =
   dispatch =>
-  async ({id, title, content}) => {
+  ({id, title, content}) => {
     dispatch({type: 'editNote', payload: {id, title, content}});
   };
-const getNote = dispatch => id => {
-  dispatch({type: 'getNote', payload: id});
-};
+
 const getNotes = dispatch => async () => {
   let notes = await AsyncStorage.getItem('notes');
   if (notes) {
@@ -63,6 +61,6 @@ const getNotes = dispatch => async () => {
 
 export const {Context, Provider} = createContexts(
   reducer,
-  {addNote, deleteNote, editNote, getNote, getNotes},
+  {addNote, deleteNote, editNote, getNotes},
   {notes: [], count: 0},
 );

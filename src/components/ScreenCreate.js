@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View, TextInput} from 'react-native';
 
 const ScreenCreate = ({title, setTitle, content, setContent}) => {
@@ -13,7 +13,7 @@ const ScreenCreate = ({title, setTitle, content, setContent}) => {
       <TextInput
         multiline
         value={content}
-        placeholder="Start Typing"
+        placeholder="Start Typing ..."
         numberOfLines={10000}
         style={styles.contentInput}
         onChangeText={content => setContent(content)}

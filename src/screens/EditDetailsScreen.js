@@ -1,35 +1,46 @@
-import React, {useState, useContext, useLayoutEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import showMessage from '../showMessage';
-//Contexts
-import {Context as NotesContext} from '../contexts/NotesContext';
+import React, {useState, useLayoutEffect, useContext, useEffect} from 'react';
+import {View, StyleSheet, BackHandler} from 'react-native';
 
 //Components
 import ScreenCreate from '../components/ScreenCreate';
+import Header from '../components/Header';
+
+//Contexts
+import {Context as NotesContext} from '../contexts/NotesContext';
 
 const EditDetailsScreen = ({route, navigation}) => {
-  const {editNote} = useContext(NotesContext);
   const {note} = route.params;
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
+  const {editNote, deleteNote} = useContext(NotesContext);
+
+  const EditNote = () => {
+    if (title != '') {
+      editNote({id: note.id, title, content});
+    } else {
+      if (content != '') {
+        editNote({id: note.id, title: 'Untitled', content});
+      } else {
+        deleteNote(note.id);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      EditNote,
+    );
+    return () => backHandler.remove();
+  }, [title, content]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <TouchableOpacity
-            style={styles.iconStyle}
-            onPress={() => {
-              if (title != '') {
-                editNote({id: note.id, title, content});
-                navigation.goBack();
-              } else {
-                showMessage("Title can't be empty!");
-              }
-            }}>
-            <Icon name="check" type="anticon" size={30} color="#ffffff" />
-          </TouchableOpacity>
+          <View style={styles.iconStyle}>
+            <Header type="edit" id={note.id} title={title} content={content} />
+          </View>
         );
       },
     });
@@ -48,7 +59,9 @@ const EditDetailsScreen = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  parentView: {},
+  parentView: {
+    backgroundColor: '#AEE9FC',
+  },
   iconStyle: {
     marginRight: 10,
   },
