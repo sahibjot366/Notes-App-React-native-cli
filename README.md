@@ -4,9 +4,8 @@
 Created in React Native using react native cli. Create and maintain List of Notes,
 edit and delete a note.
 
-
-
-
+## Demo
+https://user-images.githubusercontent.com/79393792/149494391-65dccaf7-d0b5-4ac6-9f8f-1eb18b9fb432.mp4
 
 
 ## Features
