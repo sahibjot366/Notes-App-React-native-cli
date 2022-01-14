@@ -6,7 +6,8 @@ edit and delete a note.
 
 
 ## Demo
-https://user-images.githubusercontent.com/79393792/149494693-a917e6a1-f89b-4352-af7c-0a82f466ec9f.mp4
+
+https://user-images.githubusercontent.com/79393792/149494933-ecab9746-e3b1-4ac7-bc3e-bd655346d856.mp4
 
 ## Features
 
